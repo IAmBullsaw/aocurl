@@ -50,7 +50,7 @@ def get_args():
                         help='forces to GET from advent of code')
     parser.add_argument('-a', '--answer', type=str, nargs=2,
                         help='send answer to adventofcode')
-    parser.add_argument('-l', '--leaderboard', help='send answer to AOC')
+    # parser.add_argument('-l', '--leaderboard', help='see your leaderboard')
 
     args = parser.parse_args()
     return args
