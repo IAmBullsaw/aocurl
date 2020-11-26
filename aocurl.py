@@ -33,7 +33,8 @@ class AOCHTMLParser(HTMLParser):
 
 def get_args():
     """Return arguments passed to the script"""
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog='aocurl.py')
+    parser.add_argument('--version', action='version', version='%(prog)s 1.0')
     parser.add_argument('year', type=int, help='which year to get data from')
     parser.add_argument('day', type=int, help='which day to get data from')
     parser.add_argument('-p', '--puzzle', action='store_false', dest='input',
