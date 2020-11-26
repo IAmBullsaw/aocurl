@@ -1,4 +1,5 @@
-import urllib.request, urllib.error
+import urllib.request
+import urllib.error
 from pathlib import Path
 import os.path
 import sys
@@ -6,27 +7,30 @@ import argparse
 import json
 
 
-
 def get_args():
     """Return arguments passed to the script"""
     parser = argparse.ArgumentParser()
-    parser.add_argument('year',help='which year to get data from')
-    parser.add_argument('day',help='which day to get data from')
-    parser.add_argument('-p','--puzzle',help='dictates script to get the puzzle description', action='store_false', dest='input')
-    parser.add_argument('-i','--input',help='dicates script to return just the puzzle input', action='store_false', dest='puzzle')
-    parser.add_argument('-s','--session-cookie',help='set your session cookie')
-    parser.add_argument('-o','--output',help='send results to stdout', action='store_true')
+    parser.add_argument('year', help='which year to get data from')
+    parser.add_argument('day', help='which day to get data from')
+    parser.add_argument('-p', '--puzzle', action='store_false', dest='input',
+                        help='dictates script to get the puzzle description')
+    parser.add_argument('-i', '--input', action='store_false', dest='puzzle',
+                        help='dicates script to return just the puzzle input')
+    parser.add_argument('-s', '--session-cookie',
+                        help='set your session cookie')
+    parser.add_argument('-o', '--output', action='store_true',
+                        help='send results to stdout')
 
     args = parser.parse_args()
     return args
 
 
-def get_page(local_file: str, url: str, cookie = None):
+def get_page(local_file: str, url: str, cookie=None):
     """Return the AOC page, sends a request if it isn't available locally"""
     page = None
 
     if os.path.isfile(local_file):
-        with open(local_file,'r') as f:
+        with open(local_file, 'r') as f:
             page = f.read()
     else:
         request = urllib.request.Request(url)
@@ -36,7 +40,10 @@ def get_page(local_file: str, url: str, cookie = None):
             with urllib.request.urlopen(request) as response:
                 page = response.read().decode('utf-8)')
         except urllib.error.URLError as e:
-            print("{}: Could not GET '{}'.".format(str(e).split(':')[0] , request.get_full_url()), file=sys.stderr)
+            print("{}: Could not GET '{}'.".format(
+                                str(e).split(':')[0],
+                                request.get_full_url()),
+                  file=sys.stderr)
             exit(1)
 
         with open(local_file, 'w') as f:
@@ -75,8 +82,10 @@ def setup():
         try:
             os.mkdir(aocurl_home)
         except OSError:
-            print("Creation of the directory '{}' failed".format(aocurl_home), file=sys.stderr)
+            print("Creation of the directory '{}' failed".format(aocurl_home),
+                  file=sys.stderr)
             exit(3)
+
 
 def get_local_file_path(path):
     """Return the absolute path to the passed in path"""
@@ -96,7 +105,8 @@ if __name__ == '__main__':
         cookie = args.session_cookie
 
     if args.puzzle:
-        local_file = get_local_file_path('aoc-{}-{}.html'.format(args.year, args.day))
+        local_file = get_local_file_path('aoc-{}-{}.html'.format(args.year,
+                                                                 args.day))
         url = 'https://adventofcode.com/{}/day/{}'.format(args.year, args.day)
         page = get_page(local_file, url)
         results.append(local_file)
@@ -105,8 +115,11 @@ if __name__ == '__main__':
 
     if args.input:
         cookie = read_session_cookie()
-        local_file = get_local_file_path('aoc-{}-{}-input.txt'.format(args.year, args.day))
-        url = 'https://adventofcode.com/{}/day/{}/input'.format(args.year, args.day)
+        local_file = get_local_file_path(
+            'aoc-{}-{}-input.txt'.format(args.year, args.day))
+
+        url = 'https://adventofcode.com/{}/day/{}/input'.format(args.year,
+                                                                args.day)
         page = get_page(local_file, url, cookie)
         results.append(local_file)
         if args.output:
@@ -116,4 +129,4 @@ if __name__ == '__main__':
         # Print the absolute path to the sought after file(s)
         print('* Advent Of Code *')
         for result in results:
-            print('=>',result)
+            print('=>', result)
