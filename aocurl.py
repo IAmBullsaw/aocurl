@@ -68,6 +68,7 @@ def read_session_cookie(path='aoc-session-cookie.json'):
 
 
 def setup():
+    """Creates ~/.aocurl if it does not exist"""
     home = str(Path.home())
     aocurl_home = home + '/.aocurl'
     if not os.path.isdir(aocurl_home):
@@ -78,11 +79,13 @@ def setup():
             exit(3)
 
 def get_local_file_path(path):
+    """Return the absolute path to the passed in path"""
     home = str(Path.home())
     full_path = home + '/.aocurl/' + path
     return full_path
 
 if __name__ == '__main__':
+    """Main script flow"""
     args = get_args()
     results = []
 
@@ -93,7 +96,6 @@ if __name__ == '__main__':
         cookie = args.session_cookie
 
     if args.puzzle:
-        # get the puzzle
         local_file = get_local_file_path('aoc-{}-{}.html'.format(args.year, args.day))
         url = 'https://adventofcode.com/{}/day/{}'.format(args.year, args.day)
         page = get_page(local_file, url)
@@ -102,7 +104,6 @@ if __name__ == '__main__':
             print(page)
 
     if args.input:
-        # get the input
         cookie = read_session_cookie()
         local_file = get_local_file_path('aoc-{}-{}-input.txt'.format(args.year, args.day))
         url = 'https://adventofcode.com/{}/day/{}/input'.format(args.year, args.day)
@@ -112,6 +113,7 @@ if __name__ == '__main__':
             print(page)
 
     if not args.output:
+        # Print the absolute path to the sought after file(s)
         print('* Advent Of Code *')
         for result in results:
             print('=>',result)
