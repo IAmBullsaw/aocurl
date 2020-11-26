@@ -1,8 +1,11 @@
 import urllib.request, urllib.error
+from pathlib import Path
 import os.path
 import sys
 import argparse
 import json
+
+
 
 def get_args():
     """Return arguments passed to the script"""
@@ -12,6 +15,8 @@ def get_args():
     parser.add_argument('-p','--puzzle',help='dictates script to get the puzzle description', action='store_false', dest='input')
     parser.add_argument('-i','--input',help='dicates script to return just the puzzle input', action='store_false', dest='puzzle')
     parser.add_argument('-s','--session-cookie',help='set your session cookie')
+    parser.add_argument('-o','--output',help='send results to stdout', action='store_true')
+
     args = parser.parse_args()
     return args
 
@@ -43,26 +48,45 @@ def get_page(local_file: str, url: str, cookie = None):
 def store_session_cookie(cookie: str, path='aoc-session-cookie.json'):
     """Writes cookie to file"""
     cookie = {'session-cookie': cookie}
-    with open(path, 'w') as f:
+    local_file = get_local_file_path(path)
+    with open(local_file, 'w') as f:
         f.write(json.dumps(cookie))
 
 
 def read_session_cookie(path='aoc-session-cookie.json'):
     """Reads cookie from file"""
     data = None
+    local_file = get_local_file_path(path)
     try:
-        with open(path, 'r') as f:
+        with open(local_file, 'r') as f:
             data = json.load(f)
     except FileNotFoundError as e:
-        print("Could not find '{}'.".format(path), file=sys.stderr)
-        exit(1)
+        print("Could not find '{}'.".format(local_file), file=sys.stderr)
+        exit(2)
 
     return data.get('session-cookie')
 
 
+def setup():
+    home = str(Path.home())
+    aocurl_home = home + '/.aocurl'
+    if not os.path.isdir(aocurl_home):
+        try:
+            os.mkdir(aocurl_home)
+        except OSError:
+            print("Creation of the directory '{}' failed".format(aocurl_home), file=sys.stderr)
+            exit(3)
+
+def get_local_file_path(path):
+    home = str(Path.home())
+    full_path = home + '/.aocurl/' + path
+    return full_path
+
 if __name__ == '__main__':
     args = get_args()
     results = []
+
+    setup()
 
     if args.session_cookie:
         store_session_cookie(args.session_cookie)
@@ -70,19 +94,24 @@ if __name__ == '__main__':
 
     if args.puzzle:
         # get the puzzle
-        local_file = 'aoc-{}-{}.html'.format(args.year, args.day)
+        local_file = get_local_file_path('aoc-{}-{}.html'.format(args.year, args.day))
         url = 'https://adventofcode.com/{}/day/{}'.format(args.year, args.day)
-        get_page(local_file, url)
+        page = get_page(local_file, url)
         results.append(local_file)
+        if args.output:
+            print(page)
 
     if args.input:
         # get the input
         cookie = read_session_cookie()
-        local_file = 'aoc-{}-{}-input.html'.format(args.year, args.day)
+        local_file = get_local_file_path('aoc-{}-{}-input.txt'.format(args.year, args.day))
         url = 'https://adventofcode.com/{}/day/{}/input'.format(args.year, args.day)
-        get_page(local_file, url, cookie)
+        page = get_page(local_file, url, cookie)
         results.append(local_file)
+        if args.output:
+            print(page)
 
-    print('* Advent Of Code *')
-    for result in results:
-        print('=>',result)
+    if not args.output:
+        print('* Advent Of Code *')
+        for result in results:
+            print('=>',result)
