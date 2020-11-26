@@ -93,6 +93,7 @@ def get_local_file_path(path):
     full_path = home + '/.aocurl/' + path
     return full_path
 
+
 if __name__ == '__main__':
     """Main script flow"""
     args = get_args()
