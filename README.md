@@ -20,7 +20,7 @@ $ cat aoc-session-cookie.json
 
 Full usage can be found via argparses -h
 ```
-usage: aocurl.py [-h] [-p] [-i] [-s SESSION_COOKIE] [-o] year day
+usage: aocurl.py [-h] [-p] [-i] [-s SESSION_COOKIE] [-o] [-f] [-a ANSWER ANSWER] [-l LEADERBOARD] year day
 
 positional arguments:
   year                  which year to get data from
@@ -33,4 +33,7 @@ optional arguments:
   -s SESSION_COOKIE, --session-cookie SESSION_COOKIE
                         set your session cookie
   -o, --output          send results to stdout
+  -f, --force           forces to GET from advent of code
+  -a ANSWER ANSWER, --answer ANSWER ANSWER
+                        send answer to adventofcode
 ```
