@@ -20,7 +20,7 @@ $ cat aoc-session-cookie.json
 
 Full usage can be found via argparses -h
 ```
-usage: aocurl.py [-h] [-p] [-i] [-s SESSION_COOKIE] year day
+usage: aocurl.py [-h] [-p] [-i] [-s SESSION_COOKIE] [-o] year day
 
 positional arguments:
   year                  which year to get data from
@@ -32,4 +32,5 @@ optional arguments:
   -i, --input           dicates script to return just the puzzle input
   -s SESSION_COOKIE, --session-cookie SESSION_COOKIE
                         set your session cookie
+  -o, --output          send results to stdout
 ```
