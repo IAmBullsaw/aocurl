@@ -6,7 +6,7 @@ To not abuse the server, if you've already downloaded the files previously this 
 ## Usage
 
 ### First use
-First use you need to set your (session-cookie)[#Retrieve your session cookie]
+First use you need to set your (session-cookie)[#retrieve-your-session-cookie]
 
 ```bash
 $ python3 aocurl.py 2020 1 -s session-cookie
