@@ -6,7 +6,7 @@ To not abuse the server, if you've already downloaded the files previously this 
 ## Usage
 
 ### First use
-First use you need to set your (session-cookie)[#retrieve-your-session-cookie]
+First use you need to set your [session-cookie](#retrieve-your-session-cookie)
 
 ```bash
 $ python3 aocurl.py 2020 1 -s session-cookie
@@ -30,17 +30,19 @@ $ python3 aocurl.py 2020 1
 
 The produced files are
 
-`/home/$USER/.aocurl/aoc-2020-1.html` the full html
-`/home/$USER/.aocurl/aoc-2020-1-1.txt` is the description for the requested day level 1, level two would be `../aoc-2020-1-2.txt`
-`/home/$USER/.aocurl/aoc-2020-1-input.txt` is the input for the requested day
+`/home/$USER/.aocurl/aoc-2020-1.html` the full html  
+`/home/$USER/.aocurl/aoc-2020-1-1.txt` is the description for the requested day level 1, level two would be `../aoc-2020-1-2.txt`  
+`/home/$USER/.aocurl/aoc-2020-1-input.txt` is the input for the requested day  
 
 ### Submitting an answer
-When you have gotten an answer, let's say you got `4711`, you can submit your answer with 
+When you have gotten an answer, you can submit your answer with the flag `-a level answer`. As you can see `-a` takes two positional arguments, where the first one indicates which level (1 or 2) and the second is your answer.
 
+So to answer `4711` on day 1 level 1 you would write
 ```bash
 $ python3 aocurl.py 2020 1 -a 1 4711
 Correct!
 ```
+Huzzah! Correct! :tada:
 
 ### Getting the next levels instructions 
 If you have submitted a correct answer, you might want to retrieve the next part of the puzzle, i.e level 2. To do this, you need to refetch the whole day from the server, so you have to use `--force`.
