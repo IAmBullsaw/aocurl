@@ -1,3 +1,4 @@
+![logo](/img/aocurl.png)
 # aocurl
 Downloads advent of code puzzles and inputs.
 To not abuse the server, if you've already downloaded the files previously this will just look inside the folder `~/.aocurl/`
