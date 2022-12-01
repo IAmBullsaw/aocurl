@@ -68,6 +68,7 @@ def get_page(local_file: str, url: str, cookie=None, force=False):
         request = urllib.request.Request(url)
         if cookie:
             request.add_header('Cookie', 'session={}'.format(cookie))
+            request.add_header('User-Agent', 'github.com/IAmBullsaw/aocurl by hello@oskarjansson.com')
         try:
             with urllib.request.urlopen(request) as response:
                 page = response.read().decode('utf-8)')
